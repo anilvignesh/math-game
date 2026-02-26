@@ -14,102 +14,129 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      justify-content: flex-start;
+      padding: 20px 16px 40px;
     }
 
     h1 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       color: #d63031;
       text-shadow: 2px 2px 0 #fff;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+      text-align: center;
     }
 
-    #stars-bar {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-      color: #e17055;
-      letter-spacing: 4px;
+    /* ── Zone strip ── */
+    #zone-strip {
+      display: flex;
+      gap: 5px;
+      margin: 10px 0 6px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    /* ── Difficulty meter ── */
-    #difficulty-bar-wrap {
+    .zone-pip {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #dfe6e9;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-      color: #636e72;
-    }
-
-    #diff-track {
-      width: 180px;
-      height: 14px;
-      background: #dfe6e9;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    #diff-fill {
-      height: 100%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, #55efc4, #fdcb6e, #d63031);
-      transition: width 0.5s ease;
-    }
-
-    #diff-label {
+      justify-content: center;
+      font-size: 0.7rem;
       font-weight: bold;
-      min-width: 80px;
-      color: #2d3436;
+      color: #636e72;
+      border: 2px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .zone-pip.done     { background: #55efc4; color: #00b894; }
+    .zone-pip.active   { border-color: #6c5ce7; background: #e8e4ff; color: #6c5ce7; transform: scale(1.2); }
+
+    /* ── Zone header ── */
+    #zone-header {
+      font-size: 1rem;
+      color: #636e72;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    #zone-header strong { color: #2d3436; }
+
+    /* ── Stars ── */
+    #stars-bar {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #e17055;
     }
 
     /* ── Game card ── */
     #game-card {
       background: white;
       border-radius: 24px;
-      padding: 28px 32px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      max-width: 580px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+      max-width: 560px;
       width: 100%;
       text-align: center;
     }
 
+    #equation {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #6c5ce7;
+      letter-spacing: 4px;
+      text-shadow: 2px 2px 0 #dfe6e9;
+      margin-bottom: 6px;
+    }
+
     #question-text {
-      font-size: 1.2rem;
-      color: #2d3436;
-      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #636e72;
+      margin-bottom: 16px;
       line-height: 1.5;
     }
 
-    #equation {
-      font-size: 2.6rem;
+    /* ── Hint section ── */
+    #hint-section { margin-bottom: 18px; }
+
+    #hint-btn {
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-family: inherit;
       font-weight: bold;
+      background: #f0f0ff;
+      border: 2px dashed #a29bfe;
+      border-radius: 30px;
+      cursor: pointer;
       color: #6c5ce7;
-      margin-bottom: 18px;
-      letter-spacing: 4px;
-      text-shadow: 2px 2px 0 #dfe6e9;
-      transition: color 0.4s;
+      transition: transform 0.15s, background 0.15s;
     }
 
+    #hint-btn:hover { transform: scale(1.06); background: #e8e4ff; }
+    #hint-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
     #groups-container {
-      display: flex;
+      display: none; /* hidden until hint clicked */
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 22px;
+      gap: 10px;
+      margin-top: 14px;
     }
+
+    #groups-container.visible { display: flex; }
 
     .group-box {
       background: #f0f4ff;
       border: 3px solid #74b9ff;
-      border-radius: 16px;
-      padding: 10px 14px;
-      min-width: 72px;
+      border-radius: 14px;
+      padding: 9px 12px;
+      min-width: 64px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      animation: popIn 0.3s ease;
+      gap: 5px;
+      animation: popIn 0.25s ease;
     }
 
     @keyframes popIn {
@@ -118,7 +145,7 @@
     }
 
     .group-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #636e72;
       font-weight: bold;
       text-transform: uppercase;
@@ -129,15 +156,16 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 3px;
-      font-size: 1.6rem;
+      gap: 2px;
+      font-size: 1.5rem;
       line-height: 1;
     }
 
-    #answer-section { margin-bottom: 18px; }
+    /* ── Answer buttons ── */
+    #answer-section { margin-bottom: 16px; }
 
-    #answer-section p {
-      font-size: 1.05rem;
+    #answer-section > p {
+      font-size: 1rem;
       color: #636e72;
       margin-bottom: 10px;
     }
@@ -150,8 +178,8 @@
     }
 
     .answer-btn {
-      width: 64px;
-      height: 64px;
+      width: 66px;
+      height: 66px;
       font-size: 1.5rem;
       font-family: inherit;
       font-weight: bold;
@@ -159,20 +187,18 @@
       border-radius: 50%;
       background: #f9f9f9;
       cursor: pointer;
-      transition: transform 0.15s, background 0.15s, border-color 0.15s;
+      transition: transform 0.15s, background 0.15s;
     }
 
     .answer-btn:hover { transform: scale(1.15); background: #dfe6e9; }
 
     .answer-btn.correct {
-      background: #55efc4;
-      border-color: #00b894;
+      background: #55efc4; border-color: #00b894;
       animation: bounce 0.4s ease;
     }
 
     .answer-btn.wrong {
-      background: #ff7675;
-      border-color: #d63031;
+      background: #ff7675; border-color: #d63031;
       animation: shake 0.4s ease;
     }
 
@@ -188,8 +214,8 @@
     }
 
     #feedback {
-      font-size: 1.35rem;
-      min-height: 36px;
+      font-size: 1.3rem;
+      min-height: 34px;
       margin-bottom: 6px;
       font-weight: bold;
     }
@@ -197,18 +223,18 @@
     #feedback.good { color: #00b894; }
     #feedback.bad  { color: #d63031; }
 
-    /* level-up toast */
-    #level-toast {
+    /* zone-complete toast */
+    #zone-toast {
       display: none;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: bold;
       color: #6c5ce7;
       margin-bottom: 6px;
-      animation: fadeSlide 0.5s ease;
+      animation: fadeSlide 0.4s ease;
     }
 
     @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(-8px); }
+      from { opacity: 0; transform: translateY(-6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
@@ -216,7 +242,7 @@
       display: none;
       margin: 8px auto 0;
       padding: 12px 32px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-family: inherit;
       font-weight: bold;
       background: #fdcb6e;
@@ -228,35 +254,28 @@
 
     #next-btn:hover { transform: scale(1.08); }
 
-    /* Win screen */
-    #win-screen {
+    /* ── Zone complete screen ── */
+    #zone-screen {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
+      text-align: center;
     }
 
-    #win-screen h2 {
-      font-size: 2rem;
-      color: #d63031;
-      text-shadow: 2px 2px 0 #fff;
-    }
-
-    #win-screen p { font-size: 1.1rem; color: #636e72; }
-
-    #win-screen .big-emoji {
-      font-size: 4rem;
-      animation: spin 1s ease infinite alternate;
-    }
+    #zone-screen .big-emoji { font-size: 3.5rem; animation: spin 1s ease infinite alternate; }
 
     @keyframes spin {
       from { transform: rotate(-10deg) scale(1); }
       to   { transform: rotate(10deg) scale(1.2); }
     }
 
-    #play-again-btn {
-      padding: 14px 36px;
-      font-size: 1.2rem;
+    #zone-screen h2 { font-size: 1.8rem; color: #d63031; text-shadow: 1px 1px 0 #fff; }
+    #zone-screen p  { font-size: 1rem; color: #636e72; }
+
+    #next-zone-btn {
+      padding: 13px 32px;
+      font-size: 1.1rem;
       font-family: inherit;
       font-weight: bold;
       background: #74b9ff;
@@ -267,93 +286,47 @@
       transition: transform 0.15s;
     }
 
-    #play-again-btn:hover { transform: scale(1.08); }
+    #next-zone-btn:hover { transform: scale(1.08); }
 
-    #level-badge {
-      font-size: 0.9rem;
-      color: #b2bec3;
-      margin-top: 4px;
+    /* ── Win screen ── */
+    #win-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
     }
 
-    /* ── Mobile responsive ── */
+    #win-screen .big-emoji { font-size: 4rem; animation: spin 1s ease infinite alternate; }
+    #win-screen h2 { font-size: 2rem; color: #d63031; text-shadow: 2px 2px 0 #fff; }
+    #win-screen p  { font-size: 1.05rem; color: #636e72; }
+
+    #play-again-btn {
+      padding: 13px 34px;
+      font-size: 1.1rem;
+      font-family: inherit;
+      font-weight: bold;
+      background: #55efc4;
+      border: 3px solid #00b894;
+      border-radius: 40px;
+      cursor: pointer;
+      color: #00664d;
+      transition: transform 0.15s;
+    }
+
+    #play-again-btn:hover { transform: scale(1.08); }
+
+    /* ── Mobile ── */
     @media (max-width: 480px) {
-      body {
-        padding: 12px;
-        justify-content: flex-start;
-        padding-top: 16px;
-      }
-
-      h1 {
-        font-size: 1.7rem;
-        margin-bottom: 4px;
-      }
-
-      #stars-bar {
-        font-size: 1.1rem;
-        margin-bottom: 6px;
-      }
-
-      #difficulty-bar-wrap {
-        font-size: 0.78rem;
-        gap: 6px;
-        margin-bottom: 10px;
-      }
-
-      #diff-track { width: 120px; height: 11px; }
-
-      #diff-label { min-width: 64px; font-size: 0.78rem; }
-
-      #game-card {
-        padding: 18px 16px;
-        border-radius: 18px;
-      }
-
-      #question-text {
-        font-size: 1rem;
-        margin-bottom: 8px;
-      }
-
-      #equation {
-        font-size: 2rem;
-        letter-spacing: 2px;
-        margin-bottom: 14px;
-      }
-
-      #groups-container {
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-
-      .group-box {
-        padding: 8px 10px;
-        min-width: 60px;
-        border-radius: 12px;
-      }
-
-      .group-items { font-size: 1.3rem; }
-
-      .answer-btn {
-        width: 56px;
-        height: 56px;
-        font-size: 1.3rem;
-      }
-
+      body { padding: 12px 10px 32px; }
+      h1 { font-size: 1.6rem; }
+      #game-card { padding: 18px 14px; border-radius: 18px; }
+      #equation { font-size: 2.2rem; letter-spacing: 2px; }
+      #question-text { font-size: 0.95rem; }
+      .answer-btn { width: 58px; height: 58px; font-size: 1.3rem; }
       #answer-buttons { gap: 10px; }
-
-      #feedback { font-size: 1.1rem; }
-
-      #next-btn {
-        padding: 10px 26px;
-        font-size: 1.05rem;
-      }
-
-      #win-screen h2 { font-size: 1.6rem; }
-      #win-screen .big-emoji { font-size: 3rem; }
-
-      #play-again-btn {
-        padding: 12px 28px;
-        font-size: 1.05rem;
-      }
+      .group-items { font-size: 1.25rem; }
+      .zone-pip { width: 22px; height: 22px; font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -362,361 +335,376 @@
   <h1>🍎 Count the Groups!</h1>
   <div id="stars-bar">⭐ <span id="star-count">0</span> stars</div>
 
-  <!-- Adaptive difficulty meter -->
-  <div id="difficulty-bar-wrap">
-    <span>Easy</span>
-    <div id="diff-track"><div id="diff-fill" style="width:0%"></div></div>
-    <span>Hard</span>
-    <span id="diff-label">⭐ Starter</span>
-  </div>
+  <!-- Zone progress pips -->
+  <div id="zone-strip"></div>
+  <div id="zone-header"></div>
 
   <div id="game-card">
+
     <!-- Game view -->
     <div id="game-view">
-      <div id="question-text"></div>
       <div id="equation"></div>
-      <div id="groups-container"></div>
+      <div id="question-text"></div>
+
+      <!-- Hint section -->
+      <div id="hint-section">
+        <button id="hint-btn">🤔 I don't know</button>
+        <div id="groups-container"></div>
+      </div>
+
+      <!-- Answer buttons -->
       <div id="answer-section">
-        <p>How many in total? 👇</p>
+        <p>Pick the answer 👇</p>
         <div id="answer-buttons"></div>
       </div>
-      <div id="level-toast"></div>
+
+      <div id="zone-toast"></div>
       <div id="feedback"></div>
       <button id="next-btn">Next ➡️</button>
     </div>
 
-    <!-- Win screen -->
+    <!-- Zone complete screen -->
+    <div id="zone-screen">
+      <div class="big-emoji" id="zone-emoji"></div>
+      <h2 id="zone-title"></h2>
+      <p id="zone-message"></p>
+      <button id="next-zone-btn">Next Zone ➡️</button>
+    </div>
+
+    <!-- All done! Win screen -->
     <div id="win-screen">
       <div class="big-emoji">🏆</div>
-      <h2>Amazing job!</h2>
+      <h2>You finished all 10 zones!</h2>
       <p id="win-message"></p>
       <button id="play-again-btn">Play Again 🎉</button>
     </div>
+
   </div>
 
-  <div id="level-badge"></div>
-
   <script>
-    // ─────────────────────────────────────────────────────────────
-    // SOUND ENGINE  (Web Audio API — no files needed)
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
+    // SOUND  (Web Audio API)
+    // ═══════════════════════════════════════════════════════════════
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
+    function getCtx() { if (!audioCtx) audioCtx = new AudioCtx(); return audioCtx; }
 
-    function getCtx() {
-      if (!audioCtx) audioCtx = new AudioCtx();
-      return audioCtx;
-    }
-
-    function playTone(freq, type, duration, gainVal = 0.3, startDelay = 0) {
+    function playTone(freq, type, dur, vol = 0.28, delay = 0) {
       const ctx = getCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + startDelay);
-      gain.gain.setValueAtTime(gainVal, ctx.currentTime + startDelay);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startDelay + duration);
-      osc.start(ctx.currentTime + startDelay);
-      osc.stop(ctx.currentTime + startDelay + duration);
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+      g.gain.setValueAtTime(vol, ctx.currentTime + delay);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
+      o.start(ctx.currentTime + delay);
+      o.stop(ctx.currentTime + delay + dur);
     }
 
-    function soundCorrect() {
-      // Happy ascending chime
-      playTone(520, 'sine', 0.12, 0.25, 0.00);
-      playTone(660, 'sine', 0.12, 0.25, 0.12);
-      playTone(780, 'sine', 0.18, 0.25, 0.24);
-    }
+    const soundCorrect = () => { playTone(520,'sine',0.12,0.25,0); playTone(660,'sine',0.12,0.25,0.12); playTone(800,'sine',0.18,0.25,0.24); };
+    const soundWrong   = () => { playTone(220,'sawtooth',0.18,0.2,0); playTone(160,'sawtooth',0.18,0.15,0.16); };
+    const soundHint    = () => { playTone(440,'sine',0.1,0.15,0); playTone(350,'sine',0.15,0.1,0.1); };
+    const soundZone    = () => [330,415,494,587,698,880].forEach((f,i) => playTone(f,'triangle',0.18,0.26,i*0.09));
+    const soundWin     = () => [523,659,784,1047,784,880,1047].forEach((f,i) => playTone(f,'sine',0.22,0.28,i*0.12));
 
-    function soundWrong() {
-      // Low dull thud
-      playTone(200, 'sawtooth', 0.2, 0.2, 0.00);
-      playTone(160, 'sawtooth', 0.2, 0.15, 0.18);
-    }
+    // ═══════════════════════════════════════════════════════════════
+    // ZONES  — 10 zones × 10 questions each (strictly ascending)
+    //
+    // Each question: { a, b }  where answer = a × b
+    // Zone 1:  all ×1 (trivial — counting single groups)
+    // Zone 2:  ×2 small
+    // Zone 3:  ×2 larger / ×3 small
+    // Zone 4:  ×3 medium
+    // Zone 5:  ×4 small-medium
+    // Zone 6:  ×4-5 medium
+    // Zone 7:  ×5-6
+    // Zone 8:  ×6-7
+    // Zone 9:  ×7-9
+    // Zone 10: ×8-10 (full range)
+    // ═══════════════════════════════════════════════════════════════
+    const ZONES = [
+      { name: 'Zone 1 – Baby Steps 🐣',   emoji: '🐣', color: '#b2f5c8',
+        questions: [{a:1,b:1},{a:1,b:2},{a:2,b:1},{a:1,b:3},{a:3,b:1},{a:1,b:4},{a:4,b:1},{a:1,b:5},{a:5,b:1},{a:1,b:6}] },
 
-    function soundLevelUp() {
-      // Fanfare arpeggio
-      [392, 494, 587, 698, 880].forEach((f, i) => playTone(f, 'triangle', 0.18, 0.28, i * 0.1));
-    }
+      { name: 'Zone 2 – Doubles 🐰',       emoji: '🐰', color: '#b2eaff',
+        questions: [{a:2,b:2},{a:2,b:3},{a:3,b:2},{a:2,b:4},{a:4,b:2},{a:2,b:5},{a:5,b:2},{a:2,b:6},{a:6,b:2},{a:2,b:7}] },
 
-    function soundWin() {
-      // Victory melody
-      const notes = [523, 659, 784, 1047, 784, 1047];
-      notes.forEach((f, i) => playTone(f, 'sine', 0.22, 0.3, i * 0.13));
-    }
+      { name: 'Zone 3 – Threes 🌟',        emoji: '🌟', color: '#fff3b2',
+        questions: [{a:3,b:3},{a:3,b:4},{a:4,b:3},{a:3,b:5},{a:5,b:3},{a:3,b:6},{a:6,b:3},{a:3,b:7},{a:7,b:3},{a:3,b:8}] },
 
-    // ─────────────────────────────────────────────────────────────
-    // ADAPTIVE DIFFICULTY
-    // score  0–9   → band 0  (easy:   factors 1–3)
-    // score 10–24  → band 1  (medium: factors 2–6)
-    // score 25–44  → band 2  (hard:   factors 4–8)
-    // score 45+    → band 3  (expert: factors 6–10)
-    // Correct: +3  |  Wrong: -2  (floor 0)
-    // ─────────────────────────────────────────────────────────────
-    const BANDS = [
-      { name: '⭐ Starter',   color: '#55efc4', maxA: 3,  maxB: 3  },
-      { name: '🌟 Getting it', color: '#fdcb6e', maxA: 6,  maxB: 6  },
-      { name: '🔥 On fire',   color: '#e17055', maxA: 8,  maxB: 8  },
-      { name: '🚀 Expert',    color: '#6c5ce7', maxA: 10, maxB: 10 },
+      { name: 'Zone 4 – Fours 🍀',         emoji: '🍀', color: '#c3f5b2',
+        questions: [{a:4,b:4},{a:4,b:5},{a:5,b:4},{a:4,b:6},{a:6,b:4},{a:4,b:7},{a:7,b:4},{a:4,b:8},{a:8,b:4},{a:4,b:9}] },
+
+      { name: 'Zone 5 – High Fives ✋',    emoji: '✋', color: '#ffd6b2',
+        questions: [{a:5,b:5},{a:5,b:6},{a:6,b:5},{a:5,b:7},{a:7,b:5},{a:5,b:8},{a:8,b:5},{a:5,b:9},{a:9,b:5},{a:5,b:10}] },
+
+      { name: 'Zone 6 – Six Pack 🎲',      emoji: '🎲', color: '#f5b2e8',
+        questions: [{a:6,b:6},{a:6,b:7},{a:7,b:6},{a:6,b:8},{a:8,b:6},{a:6,b:9},{a:9,b:6},{a:6,b:10},{a:10,b:6},{a:7,b:7}] },
+
+      { name: 'Zone 7 – Lucky Sevens 🍀',  emoji: '🎯', color: '#e8d5ff',
+        questions: [{a:7,b:8},{a:8,b:7},{a:7,b:9},{a:9,b:7},{a:7,b:10},{a:10,b:7},{a:8,b:8},{a:3,b:9},{a:9,b:3},{a:4,b:10}] },
+
+      { name: 'Zone 8 – Power Eight 💥',   emoji: '💥', color: '#ffc8c8',
+        questions: [{a:8,b:9},{a:9,b:8},{a:8,b:10},{a:10,b:8},{a:9,b:9},{a:2,b:9},{a:9,b:2},{a:6,b:9},{a:9,b:6},{a:3,b:10}] },
+
+      { name: 'Zone 9 – Almost There 🚀',  emoji: '🚀', color: '#c8d8ff',
+        questions: [{a:9,b:10},{a:10,b:9},{a:9,b:4},{a:4,b:9},{a:8,b:3},{a:3,b:8},{a:10,b:5},{a:5,b:10},{a:7,b:9},{a:9,b:7}] },
+
+      { name: 'Zone 10 – Champion! 🏆',    emoji: '🏆', color: '#ffe9a0',
+        questions: [{a:10,b:10},{a:9,b:9},{a:8,b:8},{a:7,b:7},{a:6,b:9},{a:9,b:6},{a:8,b:7},{a:7,b:8},{a:10,b:8},{a:8,b:10}] },
     ];
 
-    const BAND_THRESHOLDS = [0, 10, 25, 45]; // score needed to enter each band
+    const EMOJIS = ['🍎','🐟','⭐','🍓','🌸','🐥','🍕','🎈','🦋','🍦','🚂','🦊','🎀','🍩','🌈'];
 
-    function getBandIndex(score) {
-      let idx = 0;
-      for (let i = BAND_THRESHOLDS.length - 1; i >= 0; i--) {
-        if (score >= BAND_THRESHOLDS[i]) { idx = i; break; }
-      }
-      return idx;
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // QUESTION POOL  (no-repeat within 20 recent questions)
-    // ─────────────────────────────────────────────────────────────
-    const EMOJIS = ['🍎','🐟','⭐','🍓','🌸','🐥','🍕','🎈','🦋','🍦'];
-    const TOTAL_QUESTIONS = 15;
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    // ═══════════════════════════════════════════════════════════════
+    // HELPERS
+    // ═══════════════════════════════════════════════════════════════
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
     function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        [a[i], a[j]] = [a[j], a[i]];
       }
-      return arr;
+      return a;
     }
 
-    // Pick a question pair within the current band, avoiding recent pairs
-    function pickPair(band, recentPairs) {
-      const { maxA, maxB } = band;
-      let attempts = 0;
-      while (attempts < 200) {
-        const a = randInt(1, maxA);
-        const b = randInt(1, maxB);
-        const key = `${a}x${b}`;
-        if (!recentPairs.has(key)) return { a, b };
-        attempts++;
-      }
-      // fallback: just pick anything
-      return { a: randInt(1, maxA), b: randInt(1, maxB) };
-    }
-
-    // Build wrong answer choices nearby the correct answer
     function buildChoices(correct) {
-      const choices = new Set([correct]);
-      let attempts = 0;
-      while (choices.size < 4 && attempts < 300) {
-        const offset = randInt(-Math.max(3, Math.floor(correct * 0.3)),
-                                Math.max(3, Math.floor(correct * 0.3)));
-        const c = correct + offset;
-        if (c > 0 && c !== correct) choices.add(c);
-        attempts++;
+      const set = new Set([correct]);
+      let tries = 0;
+      while (set.size < 4 && tries < 400) {
+        const spread = Math.max(4, Math.floor(correct * 0.35));
+        const c = correct + randInt(-spread, spread);
+        if (c > 0 && c !== correct) set.add(c);
+        tries++;
       }
-      for (let n = 1; choices.size < 4; n++) if (n !== correct) choices.add(n);
-      return shuffle([...choices]);
+      for (let n = 1; set.size < 4; n++) if (n !== correct) set.add(n);
+      return shuffle([...set]);
     }
 
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
     // STATE
-    // ─────────────────────────────────────────────────────────────
-    let questionIndex = 0;
-    let stars         = 0;
-    let diffScore     = 0;          // drives adaptive difficulty
-    let currentAnswer = 0;
-    let answered      = false;
-    let prevBandIdx   = 0;
-    let recentPairs   = new Set();  // avoid repeats
+    // ═══════════════════════════════════════════════════════════════
+    let zoneIdx      = 0;   // 0–9
+    let qIdx         = 0;   // 0–9 within zone
+    let totalStars   = 0;
+    let zoneStars    = 0;
+    let currentAnswer= 0;
+    let answered     = false;
+    let hintUsed     = false;
 
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
     // DOM REFS
-    // ─────────────────────────────────────────────────────────────
-    const questionText    = document.getElementById('question-text');
-    const groupsContainer = document.getElementById('groups-container');
-    const answerButtons   = document.getElementById('answer-buttons');
-    const feedback        = document.getElementById('feedback');
-    const levelToast      = document.getElementById('level-toast');
-    const nextBtn         = document.getElementById('next-btn');
-    const starCount       = document.getElementById('star-count');
-    const gameView        = document.getElementById('game-view');
-    const winScreen       = document.getElementById('win-screen');
-    const winMessage      = document.getElementById('win-message');
-    const playAgainBtn    = document.getElementById('play-again-btn');
-    const levelBadge      = document.getElementById('level-badge');
-    const diffFill        = document.getElementById('diff-fill');
-    const diffLabel       = document.getElementById('diff-label');
+    // ═══════════════════════════════════════════════════════════════
+    const $  = id => document.getElementById(id);
+    const equationEl     = $('equation');
+    const questionText   = $('question-text');
+    const hintBtn        = $('hint-btn');
+    const groupsContainer= $('groups-container');
+    const answerButtons  = $('answer-buttons');
+    const feedback       = $('feedback');
+    const zoneToast      = $('zone-toast');
+    const nextBtn        = $('next-btn');
+    const starCount      = $('star-count');
+    const zoneHeader     = $('zone-header');
+    const zoneStrip      = $('zone-strip');
+    const gameView       = $('game-view');
+    const zoneScreen     = $('zone-screen');
+    const winScreen      = $('win-screen');
 
-    // ─────────────────────────────────────────────────────────────
-    // UPDATE DIFFICULTY UI
-    // ─────────────────────────────────────────────────────────────
-    function updateDiffUI(showToast, isLevelUp) {
-      const idx   = getBandIndex(diffScore);
-      const band  = BANDS[idx];
-      // progress within the current band towards the next threshold
-      const lo    = BAND_THRESHOLDS[idx];
-      const hi    = BAND_THRESHOLDS[idx + 1] ?? (lo + 20);
-      const pct   = Math.min(100, Math.round(((diffScore - lo) / (hi - lo)) * 100));
-
-      diffFill.style.width      = `${(idx * 25) + pct * 0.25}%`;
-      diffFill.style.background = band.color;
-      diffLabel.textContent     = band.name;
-
-      if (showToast) {
-        levelToast.style.display = 'block';
-        levelToast.textContent   = isLevelUp
-          ? `⬆️ Level up! ${band.name}!`
-          : `⬇️ Back to ${band.name} — you've got this!`;
-        setTimeout(() => { levelToast.style.display = 'none'; }, 2000);
-        if (isLevelUp) soundLevelUp();
-      }
+    // ═══════════════════════════════════════════════════════════════
+    // ZONE STRIP  (10 pips)
+    // ═══════════════════════════════════════════════════════════════
+    function buildStrip() {
+      zoneStrip.innerHTML = '';
+      ZONES.forEach((z, i) => {
+        const pip = document.createElement('div');
+        pip.className = 'zone-pip' + (i < zoneIdx ? ' done' : i === zoneIdx ? ' active' : '');
+        pip.textContent = i + 1;
+        pip.title = z.name;
+        zoneStrip.appendChild(pip);
+      });
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // GENERATE QUESTION
-    // ─────────────────────────────────────────────────────────────
-    function generateQuestion() {
-      const band  = BANDS[getBandIndex(diffScore)];
-      const { a, b } = pickPair(band, recentPairs);
+    function updateHeader() {
+      const z = ZONES[zoneIdx];
+      zoneHeader.innerHTML = `<strong>${z.name}</strong> &nbsp;·&nbsp; Question ${qIdx + 1} / 10`;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER QUESTION
+    // ═══════════════════════════════════════════════════════════════
+    function renderQuestion() {
+      const zone = ZONES[zoneIdx];
+      const { a, b } = zone.questions[qIdx];
       const emoji = EMOJIS[randInt(0, EMOJIS.length - 1)];
-
-      // Track recent pairs (keep last 20)
-      recentPairs.add(`${a}x${b}`);
-      if (recentPairs.size > 20) {
-        recentPairs.delete(recentPairs.values().next().value);
-      }
-
       currentAnswer = a * b;
+      answered  = false;
+      hintUsed  = false;
 
-      document.getElementById('equation').textContent = `${a} × ${b} = ?`;
+      equationEl.textContent = `${a} × ${b} = ?`;
 
       const groupWord = a === 1 ? 'group' : 'groups';
       questionText.innerHTML =
-        `That means <strong>${a}</strong> ${groupWord} of <strong>${b} ${emoji}</strong> — count them all! 👇`;
+        `<strong>${a}</strong> ${groupWord} of <strong>${b} ${emoji}</strong> each`;
 
-      // Render groups
+      // Build groups (hidden until hint)
       groupsContainer.innerHTML = '';
+      groupsContainer.classList.remove('visible');
       for (let g = 0; g < a; g++) {
-        const box   = document.createElement('div');
-        box.className = 'group-box';
-
-        const label = document.createElement('div');
-        label.className   = 'group-label';
-        label.textContent = `Group ${g + 1}`;
-
-        const items = document.createElement('div');
-        items.className   = 'group-items';
-        items.textContent = emoji.repeat(b);
-
-        box.appendChild(label);
-        box.appendChild(items);
+        const box   = document.createElement('div');  box.className = 'group-box';
+        const lbl   = document.createElement('div');  lbl.className = 'group-label'; lbl.textContent = `Group ${g+1}`;
+        const items = document.createElement('div');  items.className = 'group-items'; items.textContent = emoji.repeat(b);
+        box.appendChild(lbl); box.appendChild(items);
         groupsContainer.appendChild(box);
       }
+
+      // Hint button
+      hintBtn.disabled = false;
+      hintBtn.textContent = '🤔 I don\'t know';
 
       // Answer buttons
       answerButtons.innerHTML = '';
       buildChoices(currentAnswer).forEach(num => {
         const btn = document.createElement('button');
-        btn.className   = 'answer-btn';
+        btn.className = 'answer-btn';
         btn.textContent = num;
         btn.addEventListener('click', () => handleAnswer(btn, num));
         answerButtons.appendChild(btn);
       });
 
-      // Reset UI
-      feedback.textContent      = '';
-      feedback.className        = '';
-      levelToast.style.display  = 'none';
-      nextBtn.style.display     = 'none';
-      answered                  = false;
+      feedback.textContent = '';
+      feedback.className   = '';
+      zoneToast.style.display = 'none';
+      nextBtn.style.display   = 'none';
 
-      levelBadge.textContent = `${band.name} · Question ${questionIndex + 1}/${TOTAL_QUESTIONS}`;
-      updateDiffUI(false);
+      buildStrip();
+      updateHeader();
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // HANDLE ANSWER
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
+    // HINT
+    // ═══════════════════════════════════════════════════════════════
+    hintBtn.addEventListener('click', () => {
+      if (answered) return;
+      hintUsed = true;
+      groupsContainer.classList.add('visible');
+      hintBtn.disabled    = true;
+      hintBtn.textContent = '👀 Count the groups!';
+      soundHint();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // ANSWER
+    // ═══════════════════════════════════════════════════════════════
     function handleAnswer(btn, chosen) {
       if (answered) return;
       answered = true;
 
       document.querySelectorAll('.answer-btn').forEach(b => b.style.pointerEvents = 'none');
 
-      const oldBandIdx = getBandIndex(diffScore);
-
       if (chosen === currentAnswer) {
         btn.classList.add('correct');
-        feedback.textContent = ['Great job! 🎉', 'Awesome! ⭐', 'You got it! 🌟', 'Brilliant! 🏆', 'Super! 🌈'][randInt(0,4)];
+        const praise = ['Great job! 🎉','Awesome! ⭐','You got it! 🌟','Brilliant! 🏆','Super! 🌈','Nice one! 👏'][randInt(0,5)];
+        feedback.textContent = hintUsed ? `${praise} (used hint)` : praise;
         feedback.className   = 'good';
-        stars++;
-        starCount.textContent = stars;
-        diffScore += 3;
+        if (!hintUsed) { totalStars++; zoneStars++; starCount.textContent = totalStars; }
         soundCorrect();
       } else {
         btn.classList.add('wrong');
-        feedback.textContent = `Not quite! The answer is ${currentAnswer} 😊`;
+        feedback.textContent = `Not quite — it's ${currentAnswer} 😊`;
         feedback.className   = 'bad';
+        // reveal correct
         document.querySelectorAll('.answer-btn').forEach(b => {
           if (+b.textContent === currentAnswer) b.classList.add('correct');
         });
-        diffScore = Math.max(0, diffScore - 2);
+        // always show groups on wrong
+        groupsContainer.classList.add('visible');
         soundWrong();
       }
-
-      const newBandIdx = getBandIndex(diffScore);
-      const bandChanged = newBandIdx !== oldBandIdx;
-      updateDiffUI(bandChanged, newBandIdx > oldBandIdx);
-      prevBandIdx = newBandIdx;
 
       nextBtn.style.display = 'inline-block';
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // NEXT / WIN
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
+    // NEXT BUTTON
+    // ═══════════════════════════════════════════════════════════════
     nextBtn.addEventListener('click', () => {
-      questionIndex++;
-      if (questionIndex >= TOTAL_QUESTIONS) {
-        showWinScreen();
+      qIdx++;
+      if (qIdx >= 10) {
+        showZoneComplete();
       } else {
-        generateQuestion();
+        renderQuestion();
       }
     });
 
+    // ═══════════════════════════════════════════════════════════════
+    // ZONE COMPLETE SCREEN
+    // ═══════════════════════════════════════════════════════════════
+    function showZoneComplete() {
+      soundZone();
+      gameView.style.display      = 'none';
+      zoneScreen.style.display    = 'flex';
+
+      const zone = ZONES[zoneIdx];
+      $('zone-emoji').textContent = zone.emoji;
+      $('zone-title').textContent = `${zone.name.split('–')[0].trim()} complete!`;
+
+      const pct = Math.round((zoneStars / 10) * 100);
+      let msg = `You scored ${zoneStars} / 10 stars in this zone. `;
+      if (zoneStars === 10) msg += 'Perfect! 🌈';
+      else if (pct >= 70)   msg += 'Really well done! 🌟';
+      else                  msg += 'Keep going — you\'re learning! 💪';
+      $('zone-message').textContent = msg;
+
+      const isLast = zoneIdx >= ZONES.length - 1;
+      $('next-zone-btn').textContent = isLast ? 'See Results 🏆' : 'Next Zone ➡️';
+    }
+
+    $('next-zone-btn').addEventListener('click', () => {
+      zoneIdx++;
+      zoneStars = 0;
+      if (zoneIdx >= ZONES.length) {
+        showWinScreen();
+      } else {
+        qIdx = 0;
+        zoneScreen.style.display = 'none';
+        gameView.style.display   = 'block';
+        renderQuestion();
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // WIN SCREEN
+    // ═══════════════════════════════════════════════════════════════
     function showWinScreen() {
       soundWin();
-      gameView.style.display  = 'none';
-      winScreen.style.display = 'flex';
-      const pct = Math.round((stars / TOTAL_QUESTIONS) * 100);
-      let msg = `You got ${stars} out of ${TOTAL_QUESTIONS} stars! `;
-      if (stars === TOTAL_QUESTIONS) msg += 'Perfect score! 🌈🏆';
-      else if (pct >= 70)            msg += 'Really well done! 🌟';
-      else                           msg += 'Keep practising — you\'re doing great! 💪';
-      winMessage.textContent = msg;
+      zoneScreen.style.display = 'none';
+      winScreen.style.display  = 'flex';
+      const total = ZONES.length * 10;
+      const pct   = Math.round((totalStars / total) * 100);
+      let msg = `You got ${totalStars} out of ${total} stars across all 10 zones! `;
+      if (pct === 100)    msg += '🌈 Perfect score — you\'re a superstar!';
+      else if (pct >= 80) msg += '🌟 Amazing work!';
+      else if (pct >= 60) msg += '💪 Great effort — keep practising!';
+      else                msg += '😊 Well done for finishing — play again to improve!';
+      $('win-message').textContent = msg;
     }
 
-    function resetGame() {
-      questionIndex = 0;
-      stars         = 0;
-      diffScore     = 0;
-      prevBandIdx   = 0;
-      recentPairs   = new Set();
+    $('play-again-btn').addEventListener('click', () => {
+      zoneIdx    = 0; qIdx = 0;
+      totalStars = 0; zoneStars = 0;
       starCount.textContent = 0;
-      gameView.style.display  = 'block';
-      winScreen.style.display = 'none';
-      updateDiffUI(false);
-      generateQuestion();
-    }
+      winScreen.style.display  = 'none';
+      gameView.style.display   = 'block';
+      renderQuestion();
+    });
 
-    playAgainBtn.addEventListener('click', resetGame);
-
-    // ─────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════
     // START
-    // ─────────────────────────────────────────────────────────────
-    updateDiffUI(false);
-    generateQuestion();
+    // ═══════════════════════════════════════════════════════════════
+    renderQuestion();
   </script>
 </body>
 </html>
