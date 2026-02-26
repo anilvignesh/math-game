@@ -424,34 +424,34 @@
     // ═══════════════════════════════════════════════════════════════
     const ZONES = [
       { name: 'Zone 1 – Baby Steps 🐣',   emoji: '🐣', color: '#b2f5c8',
-        questions: [{a:1,b:1},{a:1,b:2},{a:2,b:1},{a:1,b:3},{a:3,b:1},{a:1,b:4},{a:4,b:1},{a:1,b:5},{a:5,b:1},{a:1,b:6}] },
+        questions: [{a:1,b:1},{a:1,b:2},{a:2,b:1},{a:1,b:3},{a:3,b:1}] },
 
       { name: 'Zone 2 – Doubles 🐰',       emoji: '🐰', color: '#b2eaff',
-        questions: [{a:2,b:2},{a:2,b:3},{a:3,b:2},{a:2,b:4},{a:4,b:2},{a:2,b:5},{a:5,b:2},{a:2,b:6},{a:6,b:2},{a:2,b:7}] },
+        questions: [{a:2,b:2},{a:2,b:3},{a:3,b:2},{a:2,b:4},{a:4,b:2}] },
 
       { name: 'Zone 3 – Threes 🌟',        emoji: '🌟', color: '#fff3b2',
-        questions: [{a:3,b:3},{a:3,b:4},{a:4,b:3},{a:3,b:5},{a:5,b:3},{a:3,b:6},{a:6,b:3},{a:3,b:7},{a:7,b:3},{a:3,b:8}] },
+        questions: [{a:3,b:3},{a:3,b:4},{a:4,b:3},{a:3,b:5},{a:5,b:3}] },
 
       { name: 'Zone 4 – Fours 🍀',         emoji: '🍀', color: '#c3f5b2',
-        questions: [{a:4,b:4},{a:4,b:5},{a:5,b:4},{a:4,b:6},{a:6,b:4},{a:4,b:7},{a:7,b:4},{a:4,b:8},{a:8,b:4},{a:4,b:9}] },
+        questions: [{a:4,b:4},{a:4,b:5},{a:5,b:4},{a:4,b:6},{a:6,b:4}] },
 
       { name: 'Zone 5 – High Fives ✋',    emoji: '✋', color: '#ffd6b2',
-        questions: [{a:5,b:5},{a:5,b:6},{a:6,b:5},{a:5,b:7},{a:7,b:5},{a:5,b:8},{a:8,b:5},{a:5,b:9},{a:9,b:5},{a:5,b:10}] },
+        questions: [{a:5,b:5},{a:5,b:6},{a:6,b:5},{a:5,b:7},{a:7,b:5}] },
 
       { name: 'Zone 6 – Six Pack 🎲',      emoji: '🎲', color: '#f5b2e8',
-        questions: [{a:6,b:6},{a:6,b:7},{a:7,b:6},{a:6,b:8},{a:8,b:6},{a:6,b:9},{a:9,b:6},{a:6,b:10},{a:10,b:6},{a:7,b:7}] },
+        questions: [{a:6,b:6},{a:6,b:7},{a:7,b:6},{a:6,b:8},{a:8,b:6}] },
 
-      { name: 'Zone 7 – Lucky Sevens 🍀',  emoji: '🎯', color: '#e8d5ff',
-        questions: [{a:7,b:8},{a:8,b:7},{a:7,b:9},{a:9,b:7},{a:7,b:10},{a:10,b:7},{a:8,b:8},{a:3,b:9},{a:9,b:3},{a:4,b:10}] },
+      { name: 'Zone 7 – Lucky Sevens 🎯',  emoji: '🎯', color: '#e8d5ff',
+        questions: [{a:7,b:7},{a:7,b:8},{a:8,b:7},{a:7,b:9},{a:9,b:7}] },
 
       { name: 'Zone 8 – Power Eight 💥',   emoji: '💥', color: '#ffc8c8',
-        questions: [{a:8,b:9},{a:9,b:8},{a:8,b:10},{a:10,b:8},{a:9,b:9},{a:2,b:9},{a:9,b:2},{a:6,b:9},{a:9,b:6},{a:3,b:10}] },
+        questions: [{a:8,b:8},{a:8,b:9},{a:9,b:8},{a:8,b:10},{a:10,b:8}] },
 
       { name: 'Zone 9 – Almost There 🚀',  emoji: '🚀', color: '#c8d8ff',
-        questions: [{a:9,b:10},{a:10,b:9},{a:9,b:4},{a:4,b:9},{a:8,b:3},{a:3,b:8},{a:10,b:5},{a:5,b:10},{a:7,b:9},{a:9,b:7}] },
+        questions: [{a:9,b:9},{a:9,b:10},{a:10,b:9},{a:7,b:10},{a:10,b:7}] },
 
       { name: 'Zone 10 – Champion! 🏆',    emoji: '🏆', color: '#ffe9a0',
-        questions: [{a:10,b:10},{a:9,b:9},{a:8,b:8},{a:7,b:7},{a:6,b:9},{a:9,b:6},{a:8,b:7},{a:7,b:8},{a:10,b:8},{a:8,b:10}] },
+        questions: [{a:10,b:10},{a:9,b:9},{a:8,b:8},{a:7,b:7},{a:6,b:9}] },
     ];
 
     const EMOJIS = ['🍎','🐟','⭐','🍓','🌸','🐥','🍕','🎈','🦋','🍦','🚂','🦊','🎀','🍩','🌈'];
@@ -529,7 +529,7 @@
 
     function updateHeader() {
       const z = ZONES[zoneIdx];
-      zoneHeader.innerHTML = `<strong>${z.name}</strong> &nbsp;·&nbsp; Question ${qIdx + 1} / 10`;
+      zoneHeader.innerHTML = `<strong>${z.name}</strong> &nbsp;·&nbsp; Question ${qIdx + 1} / 5`;
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -591,8 +591,12 @@
       hintUsed = true;
       groupsContainer.classList.add('visible');
       hintBtn.disabled    = true;
-      hintBtn.textContent = '👀 Count the groups!';
+      hintBtn.textContent = '👀 Count the groups, then try again!';
       soundHint();
+      // Disable current answer buttons — she must answer after seeing the hint
+      // but this attempt won't count toward the 5. Show a soft note.
+      feedback.textContent = "Take a look, then pick your answer! (won't count as a star 😊)";
+      feedback.className   = 'bad';
     });
 
     // ═══════════════════════════════════════════════════════════════
@@ -606,22 +610,38 @@
 
       if (chosen === currentAnswer) {
         btn.classList.add('correct');
-        const praise = ['Great job! 🎉','Awesome! ⭐','You got it! 🌟','Brilliant! 🏆','Super! 🌈','Nice one! 👏'][randInt(0,5)];
-        feedback.textContent = hintUsed ? `${praise} (used hint)` : praise;
-        feedback.className   = 'good';
-        if (!hintUsed) { totalStars++; zoneStars++; starCount.textContent = totalStars; }
         soundCorrect();
+        if (hintUsed) {
+          // Correct but used hint — show groups, then retry with a fresh question
+          feedback.textContent = "Well done! But let's try one without the hint 💪";
+          feedback.className   = 'good';
+          nextBtn.textContent  = 'Try another ➡️';
+          nextBtn.dataset.retry = '1';
+        } else {
+          const praise = ['Great job! 🎉','Awesome! ⭐','You got it! 🌟','Brilliant! 🏆','Super! 🌈','Nice one! 👏'][randInt(0,5)];
+          feedback.textContent = praise;
+          feedback.className   = 'good';
+          totalStars++; zoneStars++;
+          starCount.textContent = totalStars;
+          nextBtn.textContent   = 'Next ➡️';
+          delete nextBtn.dataset.retry;
+        }
       } else {
         btn.classList.add('wrong');
-        feedback.textContent = `Not quite — it's ${currentAnswer} 😊`;
-        feedback.className   = 'bad';
-        // reveal correct
+        // reveal correct answer
         document.querySelectorAll('.answer-btn').forEach(b => {
           if (+b.textContent === currentAnswer) b.classList.add('correct');
         });
-        // always show groups on wrong
         groupsContainer.classList.add('visible');
         soundWrong();
+        if (hintUsed) {
+          feedback.textContent = `Not quite — it's ${currentAnswer}. Let's try a new one! 😊`;
+        } else {
+          feedback.textContent = `Not quite — it's ${currentAnswer} 😊`;
+        }
+        feedback.className  = 'bad';
+        nextBtn.textContent = hintUsed ? 'Try another ➡️' : 'Next ➡️';
+        nextBtn.dataset.retry = hintUsed ? '1' : '';
       }
 
       nextBtn.style.display = 'inline-block';
@@ -631,11 +651,17 @@
     // NEXT BUTTON
     // ═══════════════════════════════════════════════════════════════
     nextBtn.addEventListener('click', () => {
-      qIdx++;
-      if (qIdx >= 10) {
-        showZoneComplete();
-      } else {
+      if (nextBtn.dataset.retry === '1') {
+        // Hint was used — don't advance qIdx, re-render the same question fresh
+        // (same a×b but hint is hidden again, so she has to try on her own)
         renderQuestion();
+      } else {
+        qIdx++;
+        if (qIdx >= 5) {
+          showZoneComplete();
+        } else {
+          renderQuestion();
+        }
       }
     });
 
@@ -651,8 +677,8 @@
       $('zone-emoji').textContent = zone.emoji;
       $('zone-title').textContent = `${zone.name.split('–')[0].trim()} complete!`;
 
-      const pct = Math.round((zoneStars / 10) * 100);
-      let msg = `You scored ${zoneStars} / 10 stars in this zone. `;
+      const pct = Math.round((zoneStars / 5) * 100);
+      let msg = `You scored ${zoneStars} / 5 stars in this zone. `;
       if (zoneStars === 10) msg += 'Perfect! 🌈';
       else if (pct >= 70)   msg += 'Really well done! 🌟';
       else                  msg += 'Keep going — you\'re learning! 💪';
@@ -682,7 +708,7 @@
       soundWin();
       zoneScreen.style.display = 'none';
       winScreen.style.display  = 'flex';
-      const total = ZONES.length * 10;
+      const total = ZONES.length * 5;
       const pct   = Math.round((totalStars / total) * 100);
       let msg = `You got ${totalStars} out of ${total} stars across all 10 zones! `;
       if (pct === 100)    msg += '🌈 Perfect score — you\'re a superstar!';
