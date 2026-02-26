@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Count the Groups!</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #d63031;
+      text-shadow: 2px 2px 0 #fff;
+      margin-bottom: 8px;
+    }
+
+    #stars-bar {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: #e17055;
+      letter-spacing: 4px;
+    }
+
+    /* ── Difficulty meter ── */
+    #difficulty-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: #636e72;
+    }
+
+    #diff-track {
+      width: 180px;
+      height: 14px;
+      background: #dfe6e9;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    #diff-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #55efc4, #fdcb6e, #d63031);
+      transition: width 0.5s ease;
+    }
+
+    #diff-label {
+      font-weight: bold;
+      min-width: 80px;
+      color: #2d3436;
+    }
+
+    /* ── Game card ── */
+    #game-card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      max-width: 580px;
+      width: 100%;
+      text-align: center;
+    }
+
+    #question-text {
+      font-size: 1.2rem;
+      color: #2d3436;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    #equation {
+      font-size: 2.6rem;
+      font-weight: bold;
+      color: #6c5ce7;
+      margin-bottom: 18px;
+      letter-spacing: 4px;
+      text-shadow: 2px 2px 0 #dfe6e9;
+      transition: color 0.4s;
+    }
+
+    #groups-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .group-box {
+      background: #f0f4ff;
+      border: 3px solid #74b9ff;
+      border-radius: 16px;
+      padding: 10px 14px;
+      min-width: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: popIn 0.3s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .group-label {
+      font-size: 0.7rem;
+      color: #636e72;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .group-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    #answer-section { margin-bottom: 18px; }
+
+    #answer-section p {
+      font-size: 1.05rem;
+      color: #636e72;
+      margin-bottom: 10px;
+    }
+
+    #answer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .answer-btn {
+      width: 64px;
+      height: 64px;
+      font-size: 1.5rem;
+      font-family: inherit;
+      font-weight: bold;
+      border: 3px solid #dfe6e9;
+      border-radius: 50%;
+      background: #f9f9f9;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s, border-color 0.15s;
+    }
+
+    .answer-btn:hover { transform: scale(1.15); background: #dfe6e9; }
+
+    .answer-btn.correct {
+      background: #55efc4;
+      border-color: #00b894;
+      animation: bounce 0.4s ease;
+    }
+
+    .answer-btn.wrong {
+      background: #ff7675;
+      border-color: #d63031;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.3); }
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-8px); }
+      75%      { transform: translateX(8px); }
+    }
+
+    #feedback {
+      font-size: 1.35rem;
+      min-height: 36px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    #feedback.good { color: #00b894; }
+    #feedback.bad  { color: #d63031; }
+
+    /* level-up toast */
+    #level-toast {
+      display: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #6c5ce7;
+      margin-bottom: 6px;
+      animation: fadeSlide 0.5s ease;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #next-btn {
+      display: none;
+      margin: 8px auto 0;
+      padding: 12px 32px;
+      font-size: 1.2rem;
+      font-family: inherit;
+      font-weight: bold;
+      background: #fdcb6e;
+      border: 3px solid #e17055;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    #next-btn:hover { transform: scale(1.08); }
+
+    /* Win screen */
+    #win-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #win-screen h2 {
+      font-size: 2rem;
+      color: #d63031;
+      text-shadow: 2px 2px 0 #fff;
+    }
+
+    #win-screen p { font-size: 1.1rem; color: #636e72; }
+
+    #win-screen .big-emoji {
+      font-size: 4rem;
+      animation: spin 1s ease infinite alternate;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(-10deg) scale(1); }
+      to   { transform: rotate(10deg) scale(1.2); }
+    }
+
+    #play-again-btn {
+      padding: 14px 36px;
+      font-size: 1.2rem;
+      font-family: inherit;
+      font-weight: bold;
+      background: #74b9ff;
+      border: 3px solid #0984e3;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.15s;
+    }
+
+    #play-again-btn:hover { transform: scale(1.08); }
+
+    #level-badge {
+      font-size: 0.9rem;
+      color: #b2bec3;
+      margin-top: 4px;
+    }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+        justify-content: flex-start;
+        padding-top: 16px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+        margin-bottom: 4px;
+      }
+
+      #stars-bar {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+      }
+
+      #difficulty-bar-wrap {
+        font-size: 0.78rem;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+
+      #diff-track { width: 120px; height: 11px; }
+
+      #diff-label { min-width: 64px; font-size: 0.78rem; }
+
+      #game-card {
+        padding: 18px 16px;
+        border-radius: 18px;
+      }
+
+      #question-text {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+
+      #equation {
+        font-size: 2rem;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+      }
+
+      #groups-container {
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .group-box {
+        padding: 8px 10px;
+        min-width: 60px;
+        border-radius: 12px;
+      }
+
+      .group-items { font-size: 1.3rem; }
+
+      .answer-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1.3rem;
+      }
+
+      #answer-buttons { gap: 10px; }
+
+      #feedback { font-size: 1.1rem; }
+
+      #next-btn {
+        padding: 10px 26px;
+        font-size: 1.05rem;
+      }
+
+      #win-screen h2 { font-size: 1.6rem; }
+      #win-screen .big-emoji { font-size: 3rem; }
+
+      #play-again-btn {
+        padding: 12px 28px;
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍎 Count the Groups!</h1>
+  <div id="stars-bar">⭐ <span id="star-count">0</span> stars</div>
+
+  <!-- Adaptive difficulty meter -->
+  <div id="difficulty-bar-wrap">
+    <span>Easy</span>
+    <div id="diff-track"><div id="diff-fill" style="width:0%"></div></div>
+    <span>Hard</span>
+    <span id="diff-label">⭐ Starter</span>
+  </div>
+
+  <div id="game-card">
+    <!-- Game view -->
+    <div id="game-view">
+      <div id="question-text"></div>
+      <div id="equation"></div>
+      <div id="groups-container"></div>
+      <div id="answer-section">
+        <p>How many in total? 👇</p>
+        <div id="answer-buttons"></div>
+      </div>
+      <div id="level-toast"></div>
+      <div id="feedback"></div>
+      <button id="next-btn">Next ➡️</button>
+    </div>
+
+    <!-- Win screen -->
+    <div id="win-screen">
+      <div class="big-emoji">🏆</div>
+      <h2>Amazing job!</h2>
+      <p id="win-message"></p>
+      <button id="play-again-btn">Play Again 🎉</button>
+    </div>
+  </div>
+
+  <div id="level-badge"></div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // SOUND ENGINE  (Web Audio API — no files needed)
+    // ─────────────────────────────────────────────────────────────
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function getCtx() {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      return audioCtx;
+    }
+
+    function playTone(freq, type, duration, gainVal = 0.3, startDelay = 0) {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + startDelay);
+      gain.gain.setValueAtTime(gainVal, ctx.currentTime + startDelay);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startDelay + duration);
+      osc.start(ctx.currentTime + startDelay);
+      osc.stop(ctx.currentTime + startDelay + duration);
+    }
+
+    function soundCorrect() {
+      // Happy ascending chime
+      playTone(520, 'sine', 0.12, 0.25, 0.00);
+      playTone(660, 'sine', 0.12, 0.25, 0.12);
+      playTone(780, 'sine', 0.18, 0.25, 0.24);
+    }
+
+    function soundWrong() {
+      // Low dull thud
+      playTone(200, 'sawtooth', 0.2, 0.2, 0.00);
+      playTone(160, 'sawtooth', 0.2, 0.15, 0.18);
+    }
+
+    function soundLevelUp() {
+      // Fanfare arpeggio
+      [392, 494, 587, 698, 880].forEach((f, i) => playTone(f, 'triangle', 0.18, 0.28, i * 0.1));
+    }
+
+    function soundWin() {
+      // Victory melody
+      const notes = [523, 659, 784, 1047, 784, 1047];
+      notes.forEach((f, i) => playTone(f, 'sine', 0.22, 0.3, i * 0.13));
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // ADAPTIVE DIFFICULTY
+    // score  0–9   → band 0  (easy:   factors 1–3)
+    // score 10–24  → band 1  (medium: factors 2–6)
+    // score 25–44  → band 2  (hard:   factors 4–8)
+    // score 45+    → band 3  (expert: factors 6–10)
+    // Correct: +3  |  Wrong: -2  (floor 0)
+    // ─────────────────────────────────────────────────────────────
+    const BANDS = [
+      { name: '⭐ Starter',   color: '#55efc4', maxA: 3,  maxB: 3  },
+      { name: '🌟 Getting it', color: '#fdcb6e', maxA: 6,  maxB: 6  },
+      { name: '🔥 On fire',   color: '#e17055', maxA: 8,  maxB: 8  },
+      { name: '🚀 Expert',    color: '#6c5ce7', maxA: 10, maxB: 10 },
+    ];
+
+    const BAND_THRESHOLDS = [0, 10, 25, 45]; // score needed to enter each band
+
+    function getBandIndex(score) {
+      let idx = 0;
+      for (let i = BAND_THRESHOLDS.length - 1; i >= 0; i--) {
+        if (score >= BAND_THRESHOLDS[i]) { idx = i; break; }
+      }
+      return idx;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // QUESTION POOL  (no-repeat within 20 recent questions)
+    // ─────────────────────────────────────────────────────────────
+    const EMOJIS = ['🍎','🐟','⭐','🍓','🌸','🐥','🍕','🎈','🦋','🍦'];
+    const TOTAL_QUESTIONS = 15;
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Pick a question pair within the current band, avoiding recent pairs
+    function pickPair(band, recentPairs) {
+      const { maxA, maxB } = band;
+      let attempts = 0;
+      while (attempts < 200) {
+        const a = randInt(1, maxA);
+        const b = randInt(1, maxB);
+        const key = `${a}x${b}`;
+        if (!recentPairs.has(key)) return { a, b };
+        attempts++;
+      }
+      // fallback: just pick anything
+      return { a: randInt(1, maxA), b: randInt(1, maxB) };
+    }
+
+    // Build wrong answer choices nearby the correct answer
+    function buildChoices(correct) {
+      const choices = new Set([correct]);
+      let attempts = 0;
+      while (choices.size < 4 && attempts < 300) {
+        const offset = randInt(-Math.max(3, Math.floor(correct * 0.3)),
+                                Math.max(3, Math.floor(correct * 0.3)));
+        const c = correct + offset;
+        if (c > 0 && c !== correct) choices.add(c);
+        attempts++;
+      }
+      for (let n = 1; choices.size < 4; n++) if (n !== correct) choices.add(n);
+      return shuffle([...choices]);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────────────────────
+    let questionIndex = 0;
+    let stars         = 0;
+    let diffScore     = 0;          // drives adaptive difficulty
+    let currentAnswer = 0;
+    let answered      = false;
+    let prevBandIdx   = 0;
+    let recentPairs   = new Set();  // avoid repeats
+
+    // ─────────────────────────────────────────────────────────────
+    // DOM REFS
+    // ─────────────────────────────────────────────────────────────
+    const questionText    = document.getElementById('question-text');
+    const groupsContainer = document.getElementById('groups-container');
+    const answerButtons   = document.getElementById('answer-buttons');
+    const feedback        = document.getElementById('feedback');
+    const levelToast      = document.getElementById('level-toast');
+    const nextBtn         = document.getElementById('next-btn');
+    const starCount       = document.getElementById('star-count');
+    const gameView        = document.getElementById('game-view');
+    const winScreen       = document.getElementById('win-screen');
+    const winMessage      = document.getElementById('win-message');
+    const playAgainBtn    = document.getElementById('play-again-btn');
+    const levelBadge      = document.getElementById('level-badge');
+    const diffFill        = document.getElementById('diff-fill');
+    const diffLabel       = document.getElementById('diff-label');
+
+    // ─────────────────────────────────────────────────────────────
+    // UPDATE DIFFICULTY UI
+    // ─────────────────────────────────────────────────────────────
+    function updateDiffUI(showToast, isLevelUp) {
+      const idx   = getBandIndex(diffScore);
+      const band  = BANDS[idx];
+      // progress within the current band towards the next threshold
+      const lo    = BAND_THRESHOLDS[idx];
+      const hi    = BAND_THRESHOLDS[idx + 1] ?? (lo + 20);
+      const pct   = Math.min(100, Math.round(((diffScore - lo) / (hi - lo)) * 100));
+
+      diffFill.style.width      = `${(idx * 25) + pct * 0.25}%`;
+      diffFill.style.background = band.color;
+      diffLabel.textContent     = band.name;
+
+      if (showToast) {
+        levelToast.style.display = 'block';
+        levelToast.textContent   = isLevelUp
+          ? `⬆️ Level up! ${band.name}!`
+          : `⬇️ Back to ${band.name} — you've got this!`;
+        setTimeout(() => { levelToast.style.display = 'none'; }, 2000);
+        if (isLevelUp) soundLevelUp();
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // GENERATE QUESTION
+    // ─────────────────────────────────────────────────────────────
+    function generateQuestion() {
+      const band  = BANDS[getBandIndex(diffScore)];
+      const { a, b } = pickPair(band, recentPairs);
+      const emoji = EMOJIS[randInt(0, EMOJIS.length - 1)];
+
+      // Track recent pairs (keep last 20)
+      recentPairs.add(`${a}x${b}`);
+      if (recentPairs.size > 20) {
+        recentPairs.delete(recentPairs.values().next().value);
+      }
+
+      currentAnswer = a * b;
+
+      document.getElementById('equation').textContent = `${a} × ${b} = ?`;
+
+      const groupWord = a === 1 ? 'group' : 'groups';
+      questionText.innerHTML =
+        `That means <strong>${a}</strong> ${groupWord} of <strong>${b} ${emoji}</strong> — count them all! 👇`;
+
+      // Render groups
+      groupsContainer.innerHTML = '';
+      for (let g = 0; g < a; g++) {
+        const box   = document.createElement('div');
+        box.className = 'group-box';
+
+        const label = document.createElement('div');
+        label.className   = 'group-label';
+        label.textContent = `Group ${g + 1}`;
+
+        const items = document.createElement('div');
+        items.className   = 'group-items';
+        items.textContent = emoji.repeat(b);
+
+        box.appendChild(label);
+        box.appendChild(items);
+        groupsContainer.appendChild(box);
+      }
+
+      // Answer buttons
+      answerButtons.innerHTML = '';
+      buildChoices(currentAnswer).forEach(num => {
+        const btn = document.createElement('button');
+        btn.className   = 'answer-btn';
+        btn.textContent = num;
+        btn.addEventListener('click', () => handleAnswer(btn, num));
+        answerButtons.appendChild(btn);
+      });
+
+      // Reset UI
+      feedback.textContent      = '';
+      feedback.className        = '';
+      levelToast.style.display  = 'none';
+      nextBtn.style.display     = 'none';
+      answered                  = false;
+
+      levelBadge.textContent = `${band.name} · Question ${questionIndex + 1}/${TOTAL_QUESTIONS}`;
+      updateDiffUI(false);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // HANDLE ANSWER
+    // ─────────────────────────────────────────────────────────────
+    function handleAnswer(btn, chosen) {
+      if (answered) return;
+      answered = true;
+
+      document.querySelectorAll('.answer-btn').forEach(b => b.style.pointerEvents = 'none');
+
+      const oldBandIdx = getBandIndex(diffScore);
+
+      if (chosen === currentAnswer) {
+        btn.classList.add('correct');
+        feedback.textContent = ['Great job! 🎉', 'Awesome! ⭐', 'You got it! 🌟', 'Brilliant! 🏆', 'Super! 🌈'][randInt(0,4)];
+        feedback.className   = 'good';
+        stars++;
+        starCount.textContent = stars;
+        diffScore += 3;
+        soundCorrect();
+      } else {
+        btn.classList.add('wrong');
+        feedback.textContent = `Not quite! The answer is ${currentAnswer} 😊`;
+        feedback.className   = 'bad';
+        document.querySelectorAll('.answer-btn').forEach(b => {
+          if (+b.textContent === currentAnswer) b.classList.add('correct');
+        });
+        diffScore = Math.max(0, diffScore - 2);
+        soundWrong();
+      }
+
+      const newBandIdx = getBandIndex(diffScore);
+      const bandChanged = newBandIdx !== oldBandIdx;
+      updateDiffUI(bandChanged, newBandIdx > oldBandIdx);
+      prevBandIdx = newBandIdx;
+
+      nextBtn.style.display = 'inline-block';
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // NEXT / WIN
+    // ─────────────────────────────────────────────────────────────
+    nextBtn.addEventListener('click', () => {
+      questionIndex++;
+      if (questionIndex >= TOTAL_QUESTIONS) {
+        showWinScreen();
+      } else {
+        generateQuestion();
+      }
+    });
+
+    function showWinScreen() {
+      soundWin();
+      gameView.style.display  = 'none';
+      winScreen.style.display = 'flex';
+      const pct = Math.round((stars / TOTAL_QUESTIONS) * 100);
+      let msg = `You got ${stars} out of ${TOTAL_QUESTIONS} stars! `;
+      if (stars === TOTAL_QUESTIONS) msg += 'Perfect score! 🌈🏆';
+      else if (pct >= 70)            msg += 'Really well done! 🌟';
+      else                           msg += 'Keep practising — you\'re doing great! 💪';
+      winMessage.textContent = msg;
+    }
+
+    function resetGame() {
+      questionIndex = 0;
+      stars         = 0;
+      diffScore     = 0;
+      prevBandIdx   = 0;
+      recentPairs   = new Set();
+      starCount.textContent = 0;
+      gameView.style.display  = 'block';
+      winScreen.style.display = 'none';
+      updateDiffUI(false);
+      generateQuestion();
+    }
+
+    playAgainBtn.addEventListener('click', resetGame);
+
+    // ─────────────────────────────────────────────────────────────
+    // START
+    // ─────────────────────────────────────────────────────────────
+    updateDiffUI(false);
+    generateQuestion();
+  </script>
+</body>
+</html>
